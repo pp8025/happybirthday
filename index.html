@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>George Sir - Romantic Birthday Surprise</title>
+    
+    <!--
+    🎉 ROMANTIC BIRTHDAY SURPRISE WEBSITE 🎉
+    
+    HOW TO USE THIS CODE:
+    1. Create a new GitHub repository (e.g., 'birthday-surprise')
+    2. Create a 'media' folder in the repository
+    3. Upload images (image1.jpg to image18.jpg), audios (audio1.mp3 to audio4.mp3), and videos (video1.mp4 to video3.mp4) to the 'media' folder
+    4. Upload this file as 'index.html' to the repository root
+    5. Go to Settings → Pages → Select 'main' branch and '/ (root)' as the source
+    6. Enable GitHub Pages to get a shareable link: https://yourusername.github.io/repositoryname
+    7. Send the link to her to share the surprise! 💖
+    
+    CUSTOMIZATION OPTIONS:
+    - Replace 'George Sir' on line 89 with her name
+    - Update media URLs in the HTML (search for 'yourusername.github.io') with your actual repository path
+    - Modify colors in the CSS section (lines 20-400) for different romantic shades
+    - Add more media files to the 'media' folder and update the HTML
+    
+    FEATURES INCLUDED:
+    ✅ 21 Interactive Pages
+    ✅ Pre-uploaded Images, Audios, and Videos (hosted on GitHub)
+    ✅ Heart Aiming and Shooting Game (Page 16)
+    ✅ Interactive Quizzes
+    ✅ Smooth Page Transitions (No Shaking Animations)
+    ✅ Mobile Responsive Design
+    ✅ New Fonts: Dancing Script (headings), Merriweather (body text)
+    
+    Perfect for sharing via a GitHub Pages link! 🚀
+    -->
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Merriweather:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Merriweather', serif;
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            overflow-x: hidden;
+            color: #fff;
+        }
+        
+        .page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .page.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .page.hidden {
+            display: none;
+        }
+        
+        .page.fade-in {
+            animation: fadeIn 1s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .greeting-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .greeting-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            color: #ff4d4d;
+        }
+        
+        .picture-frame {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .picture-frame:hover {
+            transform: scale(1.05);
+            border-color: #ff99cc;
+        }
+        
+        .picture-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+        
+        .audio-control {
+            background: linear-gradient(45deg, #ff4d4d, #ff99cc);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-family: 'Merriweather', serif;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin: 20px 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .audio-control:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        
+        .heart-balloon {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff4d4d"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center;
+            background-size: contain;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .heart-balloon:hover {
+            transform: scale(1.2);
+        }
+        
+        .heart-balloon.popped {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .crosshair {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #ff4d4d;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+            transform: translate(-50%, -50%);
+        }
+        
+        .crosshair::before,
+        .crosshair::after {
+            content: '';
+            position: absolute;
+            background: #ff4d4d;
+        }
+        
+        .crosshair::before {
+            width: 2px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .crosshair::after {
+            width: 20px;
+            height: 2px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .game-area-active {
+            background: linear-gradient(to bottom, #ffe4e1, #fff0f5) !important;
+        }
+        
+        .heart-shooting-game {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .game-area {
+            width: 500px;
+            height: 400px;
+            position: relative;
+            cursor: crosshair;
+            background: linear-gradient(to bottom, #ffe4e1, #fff0f5);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .game-ui {
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .game-btn {
+            background: linear-gradient(45deg, #ff99cc, #ff4d4d);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Merriweather', serif;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+        
+        .game-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .quiz-section {
+            text-align: center;
+            max-width: 500px;
+        }
+        
+        .quiz-question {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+        }
+        
+        .audio-player {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .audio-player audio {
+            width: 100%;
+            max-width: 300px;
+            margin-top: 10px;
+        }
+        
+        .audio-player p {
+            font-family: 'Merriweather', serif;
+            font-size: 1.1em;
+        }
+        
+        .quiz-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .quiz-btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Merriweather', serif;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-btn.yes {
+            background: linear-gradient(45deg, #ff99cc, #ff4d4d);
+            color: white;
+        }
+        
+        .quiz-btn.no {
+            background: linear-gradient(45deg, #ff4d4d, #cc0000);
+            color: white;
+        }
+        
+        .quiz-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        
+        .video-frame {
+            width: 400px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+        
+        .video-frame video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        
+        .gallery-item {
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05);
+            border-color: #ff99cc;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+        
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Merriweather', serif;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .birthday-animation {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4em;
+            text-align: center;
+        }
+        
+        .heart {
+            color: #ff4d4d;
+            font-size: 2em;
+        }
+        
+        .surprise-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3em;
+            text-align: center;
+        }
+        
+        .game-frame {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .game-frame h2 {
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        .text-content {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5em;
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            max-width: 600px;
+        }
+        
+        .bullet-list {
+            font-family: 'Merriweather', serif;
+            text-align: left;
+            font-size: 1.2em;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .bullet-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .bullet-list li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .bullet-list li:before {
+            content: "💕";
+            position: absolute;
+            left: 0;
+        }
+        
+        .kinderjoy-section {
+            font-family: 'Merriweather', serif;
+            text-align: center;
+            font-size: 1.3em;
+            margin: 20px 0;
+        }
+        
+        .laugh-text {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5em;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .heart-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .heart-particle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff99cc"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center;
+            background-size: contain;
+            opacity: 0.6;
+            transition: opacity 5s linear;
+        }
+        
+        #game-score, #game-timer, #pageInfo {
+            font-family: 'Merriweather', serif;
+        }
+        
+        #heart-status {
+            font-family: 'Merriweather', serif;
+        }
+    </style>
+</head>
+<body>
+    <!-- Heart Particles Background -->
+    <div class="heart-particles" id="heart-particles"></div>
+    
+    <!-- Page 1: Greeting Card -->
+    <div class="page active" id="page1">
+        <div class="greeting-card">
+            <h1 class="greeting-title">George Sir</h1>
+            <div class="picture-frame">
+                <img src="https://yourusername.github.io/repositoryname/media/image1.jpg" alt="Greeting Image">
+            </div>
+            <p style="font-size: 2em; margin-top: 20px; font-family: 'Merriweather', serif;">Hello...16! 🎂</p>
+        </div>
+    </div>
+    
+    <!-- Page 2: Picture with Audio -->
+    <div class="page hidden" id="page2">
+        <div class="picture-frame">
+            <img src="https://yourusername.github.io/repositoryname/media/image2.jpg" alt="Page 2 Image">
+        </div>
+        <div class="audio-player">
+            <audio controls>
+                <source src="https://yourusername.github.io/repositoryname/media/audio1.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <p>"Makeup koodtha? Aano chetta!"</p>
+        </div>
+    </div>
+    
+    <!-- Page 3: Picture with Audio -->
+    <div class="page hidden" id="page3">
+        <div class="picture-frame">
+            <img src="https://yourusername.github.io/repositoryname/media/image3.jpg" alt="Page 3 Image">
+        </div>
+        <div class="audio-player">
+            <audio controls>
+                <source src="https://yourusername.github.io/repositoryname/media/audio2.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <p>"Aara...? Aarah!"</p>
+        </div>
+    </div>
+    
+    <!-- Page 4: Picture with Audio -->
+    <div class="page hidden" id="page4">
+        <div class="picture-frame">
+            <img src="https://yourusername.github.io/repositoryname/media/image4.jpg" alt="Page 4 Image">
+        </div>
+        <div class="audio-player">
+            <audio controls>
+                <source src="https://yourusername.github.io/repositoryname/media/audio3.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <p>"Ninnada suga suvitukumam!!"</p>
+        </div>
+    </div>
+    
+    <!-- Page 5: Picture with Text -->
+    <div class="page hidden" id="page5">
+        <div class="text-content">Enthaa kaatu!</div>
+        <div class="picture-frame">
+            <img src="https://yourusername.github.io/repositoryname/media/image5.jpg" alt="Page 5 Image">
+        </div>
+    </div>
+    
+    <!-- Page 6: Picture with Text -->
+    <div class="page hidden" id="page6">
+        <div class="picture-frame">
+            <img src="https://yourusername.github.io/repositoryname/media/image6.jpg" alt="Page 6 Image">
+        </div>
+        <div class="text-content">Enthoru shushkanthi.</div>
+    </div>
+    
+    <!-- Page 7: Game Invitation -->
+    <div class="page hidden" id="page7">
+        <div class="text-content">
+            🎮 Play the game, if you need a gift! 🎁
+        </div>
+    </div>
+    
+    <!-- Page 8: Heart Balloon Shooting Game -->
+    <div class="page hidden" id="page8">
+        <div class="game-frame" style="width: 500px; height: 500px; position: relative; overflow: hidden;">
+            <h2 style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 100;">🎯 Heart Shooting Game! 💖</h2>
+            
+            <div id="game-area" style="width: 100%; height: 100%; position: relative; cursor: crosshair; background: linear-gradient(to bottom, #ffe4e1, #fff0f5);">
+                <!-- Heart balloons will be spawned here -->
+            </div>
+            
+            <div id="game-ui" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); text-align: center; z-index: 100;">
+                <div id="game-score" style="margin-bottom: 10px; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Score: 0</div>
+                <div id="game-timer" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Time: 30s</div>
+                <button id="start-game-btn" class="game-btn" onclick="startBalloonGame()" style="margin-top: 10px;">Start Game! 💕</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Page 9: Gift Arrow -->
+    <div class="page hidden" id="page9">
+        <div class="text-content">
+            Your gift is → 🎁
+        </div>
+    </div>
+    
+    <!-- Page 10: Gift Video -->
+    <div class="page hidden" id="page10">
+        <h2 style="font-family: 'Dancing Script', cursive;">Patlichee</h2>
+        <div class="video-frame">
+            <video controls>
+                <source src="https://yourusername.github.io/repositoryname/media/video1.mp4" type="video/mp4">
+                Your browser does not support the video element.
+            </video>
+        </div>
+        <div class="laugh-text">hehehehd 😂</div>
+    </div>
+    
+    <!-- Page 11: Adventure List -->
+    <div class="page hidden" id="page11">
+        <div class="bullet-list">
+            <ul>
+                <li>Guys arelum</li>
+                <li>aishu nte</li>
+                <li>Adventurous ride kandatindo</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Page 12: Adventure Video -->
+    <div class="page hidden" id="page12">
+        <div class="video-frame">
+            <video controls>
+                <source src="https://yourusername.github.io/repositoryname/media/video2.mp4" type="video/mp4">
+                Your browser does not support the video element.
+            </video>
+        </div>
+        <div class="text-content">ajinoru villu...</div>
+    </div>
+    
+    <!-- Page 13: Rave Section -->
+    <div class="page hidden" id="page13">
+        <h2 style="font-family: 'Dancing Script', cursive;">Rare in Rare</h2>
+        <div class="picture-frame">
+            <img src="https://yourusername.github.io/repositoryname/media/image7.jpg" alt="Page 13 Image">
+        </div>
+        <div class="laugh-text">hihihihihi 😄</div>
+    </div>
+    
+    <!-- Page 14: Another Video -->
+    <div class="page hidden" id="page14">
+        <div class="video-frame">
+            <video controls>
+                <source src="https://yourusername.github.io/repositoryname/media/video3.mp4" type="video/mp4">
+                Your browser does not support the video element.
+            </video>
+        </div>
+    </div>
+    
+    <!-- Page 15: Kinderjoy -->
+    <div class="page hidden" id="page15">
+        <div class="kinderjoy-section">
+            <p>Kinderjoy veno?? 🍫</p>
+        </div>
+        <div class="picture-frame">
+            <img src="https://yourusername.github.io/repositoryname/media/image8.jpg" alt="Kinderjoy Image">
+        </div>
+    </div>
+    
+    <!-- Page 16: Heart Aiming and Shooting Game -->
+    <div class="page hidden" id="page16">
+        <div class="heart-shooting-game">
+            <div class="picture-frame">
+                <img src="https://yourusername.github.io/repositoryname/media/image9.jpg" alt="Heart Game Image">
+            </div>
+            <div class="text-content">Aim and shoot the hearts! 💘</div>
+            <div class="game-area" id="heart-game-area"></div>
+            <div class="game-ui">
+                <div id="game-score" style="margin-bottom: 10px; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Score: 0</div>
+                <div id="game-timer" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Time: 30s</div>
+                <button class="game-btn" id="start-heart-game-btn" onclick="startHeartGame()">Start Game! 💕</button>
+                <div id="heart-status"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Page 17: Brush Quiz -->
+    <div class="page hidden" id="page17">
+        <div class="quiz-section">
+            <div class="quiz-question">Inn ni brush cheytha?</div>
+            <div class="picture-frame">
+                <img src="https://yourusername.github.io/repositoryname/media/image10.jpg" alt="Brush Quiz Image">
+            </div>
+            <div class="quiz-buttons">
+                <button class="quiz-btn yes" onclick="answerQuiz('yes', 'brush')">Yes</button>
+                <button class="quiz-btn yes" onclick="answerQuiz('cheyyare', 'brush')">Cheyyare</button>
+                <button class="quiz-btn no" onclick="answerQuiz('no', 'brush')">Illa</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Page 18: Who Am I -->
+    <div class="page hidden" id="page18">
+        <div class="picture-frame">
+            <img src="https://yourusername.github.io/repositoryname/media/image11.jpg" alt="Who Am I Image">
+        </div>
+        <div class="audio-player">
+            <audio controls>
+                <source src="https://yourusername.github.io/repositoryname/media/audio4.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <p>"Njan aara eatta...?"</p>
+        </div>
+    </div>
+    
+    <!-- Page 19: Cute Quiz -->
+    <div class="page hidden" id="page19">
+        <div class="quiz-section">
+            <div class="picture-frame">
+                <img src="https://yourusername.github.io/repositoryname/media/image12.jpg" alt="Cute Quiz Image">
+            </div>
+            <div class="quiz-question">Njan cute alle guys!</div>
+            <div class="quiz-buttons">
+                <button class="quiz-btn yes" onclick="answerQuiz('yes', 'cute')">Yes! 😍</button>
+                <button class="quiz-btn no" onclick="answerQuiz('no', 'cute')">No 😅</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Page 20: Photo Gallery -->
+    <div class="page hidden" id="page20">
+        <h2 style="font-family: 'Dancing Script', cursive;">Pictures... 📸</h2>
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="https://yourusername.github.io/repositoryname/media/image13.jpg" alt="Gallery Image 1">
+            </div>
+            <div class="gallery-item">
+                <img src="https://yourusername.github.io/repositoryname/media/image14.jpg" alt="Gallery Image 2">
+            </div>
+            <div class="gallery-item">
+                <img src="https://yourusername.github.io/repositoryname/media/image15.jpg" alt="Gallery Image 3">
+            </div>
+            <div class="gallery-item">
+                <img src="https://yourusername.github.io/repositoryname/media/image16.jpg" alt="Gallery Image 4">
+            </div>
+            <div class="gallery-item">
+                <img src="https://yourusername.github.io/repositoryname/media/image17.jpg" alt="Gallery Image 5">
+            </div>
+            <div class="gallery-item">
+                <img src="https://yourusername.github.io/repositoryname/media/image18.jpg" alt="Gallery Image 6">
+            </div>
+        </div>
+    </div>
+    
+    <!-- Page 21: Happy Birthday -->
+    <div class="page hidden" id="page21">
+        <div class="birthday-animation">
+            Happy Birthday!! 🎉
+        </div>
+        <div class="heart">💖</div>
+        <div style="margin-top: 20px; font-size: 1.2em; font-family: 'Merriweather', serif;">animations :)</div>
+    </div>
+    
+    <!-- Navigation -->
+    <div class="navigation">
+        <button class="nav-btn" onclick="previousPage()" id="prevBtn" disabled aria-label="Previous page">Previous</button>
+        <button class="nav-btn" onclick="nextPage()" id="nextBtn" aria-label="Next page">Next</button>
+        <span id="pageInfo">1 / 21</span>
+    </div>
+    
+    <script>
+        let currentPage = 1;
+        const totalPages = 21;
+        let gameScore = 0;
+        let balloonGameActive = false;
+        let balloonGameTimer = 30;
+        let balloonGameInterval;
+        let balloonSpawnInterval;
+        let crosshair;
+        let heartGameActive = false;
+        let heartGameTimer = 30;
+        let heartGameInterval;
+        let heartSpawnInterval;
+
+        // Heart Particles
+        function createHeartParticles() {
+            const container = document.getElementById('heart-particles');
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-particle';
+                heart.style.left = Math.random() * 100 + 'vw';
+                container.appendChild(heart);
+            }
+        }
+
+        // Balloon Game Functions
+        function startBalloonGame() {
+            balloonGameActive = true;
+            gameScore = 0;
+            balloonGameTimer = 30;
+
+            document.getElementById('game-score').textContent = `Score: ${gameScore}`;
+            document.getElementById('start-game-btn').style.display = 'none';
+
+            crosshair = document.createElement('div');
+            crosshair.className = 'crosshair';
+            document.body.appendChild(crosshair);
+
+            balloonGameInterval = setInterval(() => {
+                balloonGameTimer--;
+                document.getElementById('game-timer').textContent = `Time: ${balloonGameTimer}s`;
+
+                if (balloonGameTimer <= 0) {
+                    endBalloonGame();
+                }
+            }, 1000);
+
+            balloonSpawnInterval = setInterval(spawnBalloon, 800);
+
+            document.addEventListener('mousemove', moveCrosshair);
+        }
+
+        function spawnBalloon() {
+            if (!balloonGameActive) return;
+
+            const gameArea = document.getElementById('game-area');
+            const balloon = document.createElement('div');
+            balloon.className = 'heart-balloon';
+            balloon.style.left = Math.random() * (gameArea.offsetWidth - 40) + 'px';
+            balloon.style.top = Math.random() * (gameArea.offsetHeight - 100) + 50 + 'px';
+
+            balloon.addEventListener('click', popBalloon);
+            gameArea.appendChild(balloon);
+
+            setTimeout(() => {
+                if (balloon.parentNode) {
+                    balloon.remove();
+                }
+            }, 3000);
+        }
+
+        function popBalloon(event) {
+            if (!balloonGameActive) return;
+
+            const balloon = event.target;
+            balloon.classList.add('popped');
+            balloon.removeEventListener('click', popBalloon);
+
+            gameScore += 10;
+            document.getElementById('game-score').textContent = `Score: ${gameScore}`;
+
+            createPopEffect(event.clientX, event.clientY);
+
+            setTimeout(() => {
+                balloon.remove();
+            }, 500);
+        }
+
+        function createPopEffect(x, y) {
+            const effect = document.createElement('div');
+            effect.innerHTML = '+10 💖';
+            effect.style.cssText = `
+                position: fixed;
+                left: ${x}px;
+                top: ${y}px;
+                color: #ff4d4d;
+                font-family: 'Merriweather', serif;
+                font-size: 1.5em;
+                font-weight: bold;
+                pointer-events: none;
+                z-index: 1000;
+                opacity: 1;
+                transition: opacity 1s ease;
+            `;
+            document.body.appendChild(effect);
+
+            setTimeout(() => {
+                effect.style.opacity = '0';
+                setTimeout(() => effect.remove(), 1000);
+            }, 0);
+        }
+
+        function moveCrosshair(event) {
+            if (crosshair) {
+                crosshair.style.left = event.clientX + 'px';
+                crosshair.style.top = event.clientY + 'px';
+            }
+        }
+
+        function endBalloonGame() {
+            balloonGameActive = false;
+            clearInterval(balloonGameInterval);
+            clearInterval(balloonSpawnInterval);
+
+            if (crosshair) {
+                crosshair.remove();
+                crosshair = null;
+            }
+
+            document.removeEventListener('mousemove', moveCrosshair);
+
+            document.querySelectorAll('.heart-balloon').forEach(balloon => balloon.remove());
+
+            alert(`🎉 Game Over! Final Score: ${gameScore} points! 🎉`);
+
+            document.getElementById('start-game-btn').style.display = 'block';
+            document.getElementById('game-timer').textContent = 'Time: 30s';
+        }
+
+        // Heart Shooting Game Functions
+        function startHeartGame() {
+            heartGameActive = true;
+            gameScore = 0;
+            heartGameTimer = 30;
+
+            document.getElementById('game-score').textContent = `Score: ${gameScore}`;
+            document.getElementById('start-heart-game-btn').style.display = 'none';
+
+            crosshair = document.createElement('div');
+            crosshair.className = 'crosshair';
+            document.body.appendChild(crosshair);
+
+            heartGameInterval = setInterval(() => {
+                heartGameTimer--;
+                document.getElementById('game-timer').textContent = `Time: ${heartGameTimer}s`;
+
+                if (heartGameTimer <= 0) {
+                    endHeartGame();
+                }
+            }, 1000);
+
+            heartSpawnInterval = setInterval(spawnHeart, 1000);
+
+            document.addEventListener('mousemove', moveCrosshair);
+            document.addEventListener('click', shootHeart);
+        }
+
+        function spawnHeart() {
+            if (!heartGameActive) return;
+
+            const gameArea = document.getElementById('heart-game-area');
+            const heart = document.createElement('div');
+            heart.className = 'heart-balloon';
+            heart.style.left = Math.random() * (gameArea.offsetWidth - 40) + 'px';
+            heart.style.top = Math.random() * (gameArea.offsetHeight - 40) + 'px';
+
+            gameArea.appendChild(heart);
+
+            setTimeout(() => {
+                if (heart.parentNode) {
+                    heart.remove();
+                }
+            }, 5000);
+        }
+
+        function shootHeart(event) {
+            if (!heartGameActive) return;
+
+            const rect = document.getElementById('heart-game-area').getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const clickY = event.clientY - rect.top;
+
+            const hearts = document.querySelectorAll('#heart-game-area .heart-balloon');
+            hearts.forEach(heart => {
+                const heartRect = heart.getBoundingClientRect();
+                const heartX = heartRect.left - rect.left + heartRect.width / 2;
+                const heartY = heartRect.top - rect.top + heartRect.height / 2;
+                const distance = Math.sqrt((clickX - heartX) ** 2 + (clickY - heartY) ** 2);
+
+                if (distance < 30) { // Hit if within 30px radius
+                    heart.classList.add('popped');
+                    gameScore += 15;
+                    document.getElementById('game-score').textContent = `Score: ${gameScore}`;
+                    createPopEffect(event.clientX, event.clientY);
+
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 500);
+                }
+            });
+        }
+
+        function endHeartGame() {
+            heartGameActive = false;
+            clearInterval(heartGameInterval);
+            clearInterval(heartSpawnInterval);
+
+            if (crosshair) {
+                crosshair.remove();
+                crosshair = null;
+            }
+
+            document.removeEventListener('mousemove', moveCrosshair);
+            document.removeEventListener('click', shootHeart);
+
+            document.querySelectorAll('#heart-game-area .heart-balloon').forEach(heart => heart.remove());
+
+            document.getElementById('heart-status').innerHTML = `🎉 Game Over! Final Score: ${gameScore} points! 🎉`;
+            document.getElementById('heart-status').style.color = '#ff4d4d';
+            document.getElementById('start-heart-game-btn').style.display = 'block';
+            document.getElementById('game-timer').textContent = 'Time: 30s';
+        }
+
+        function showPage(pageNum) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active', 'fade-in');
+                page.classList.add('hidden');
+            });
+
+            const currentPageElement = document.getElementById(`page${pageNum}`);
+            currentPageElement.classList.remove('hidden');
+            currentPageElement.classList.add('fade-in');
+
+            setTimeout(() => {
+                currentPageElement.classList.remove('fade-in');
+                currentPageElement.classList.add('active');
+            }, 1000);
+
+            document.getElementById('prevBtn').disabled = pageNum === 1;
+            document.getElementById('nextBtn').disabled = pageNum === totalPages;
+            document.getElementById('pageInfo').textContent = `${pageNum} / ${totalPages}`;
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                showPage(currentPage);
+            }
+        }
+
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+            }
+        }
+
+        function answerQuiz(answer, type) {
+            if (type === 'brush') {
+                nextPage(); // Auto-move to next page
+            } else if (type === 'cute') {
+                nextPage(); // Auto-move to next page
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextPage();
+            } else if (e.key === 'ArrowLeft') {
+                previousPage();
+            }
+        });
+
+        createHeartParticles();
+        showPage(1);
+    </script>
+</body>
+</html>
